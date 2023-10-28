@@ -2,8 +2,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tabheader__parent = document.querySelector('.tabheader__items'),
         tabs = document.querySelectorAll('.tabheader__item'),
-        tabsContent = document.querySelectorAll('.tabcontent')
+        tabsContent = document.querySelectorAll('.tabcontent'),
+        loader = document.querySelector('.loader')
 
+// loader
+    setTimeout(() => {
+        loader.style.opacity = '0'
+        setTimeout(() => {
+            loader.style.display = 'none'
+        }, 1000);
+    }, 2000);
+
+    //MAIN SECTION
     function hideHeaderItem() {
         tabsContent.forEach((item) => {
             item.classList.add('hide')
