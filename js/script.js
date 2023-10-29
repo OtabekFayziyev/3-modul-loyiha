@@ -102,60 +102,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setClock('.timer', deadline)
 
+// M O D A L 
 
-    // let deadline = '2023-11-29'
+const allModals = document.querySelector('[data-modal]'),
+modal = document.querySelector('.modal'),
+modalClsBtn = document.querySelector('[data-close]')
 
-    // function getTimeRemaining(endTime) {
-    //     let days, hours, minutes, seconds;
-    //     constme) - Date.parse(new Date());   // Date.parse = sananing millisekundlarini chiqarib beradi timer = Date.parse(endTi
-    //     if (timer <= 0) {
-    //         days = 0,
-    //             hours = 0,
-    //             minutes = 0,
-    //             seconds = 0
-    //     } else {
-    //         days = Math.floor(timer / (1000 * 60 * 60 * 24)),
-    //             hours = Math.floor(timer / (1000 * 60 * 60) % 24),
-    //             minutes = Math.floor(timer / (1000 * 60) % 60),
-    //             seconds = Math.floor((timer / 1000) % 60)
-    //     }
+function showModal() {
+    modal.classList.add('show')
+    modal.classList.remove('hide')
+    document.body.style.overflow = 'hidden'
+    clearTimeout(modalTimerId)
+}
 
+function closeModal() {
+    modal.classList.add('hide')
+    modal.classList.remove('show')
+    document.body.style.overflow = ''
+}
 
-    //     return { timer, days, hours, minutes, seconds }
-    // }
+allModals.addEventListener('click', showModal)
 
-    // function getZero(num) {
-    //     if (num >= 0 && num < 10) {
-    //         return `0${num}`
-    //     } else {
-    //         return num
-    //     }
-    // }
+modalClsBtn.addEventListener('click', closeModal )
 
-    // function setClock(selection, endTime) {
-    //     const timer = document.querySelector(selection),
-    //         days = timer.querySelector('#days'),
-    //         hours = timer.querySelector('#hours'),
-    //         minutes = timer.querySelector('#minutes'),
-    //         seconds = timer.querySelector('#seconds')
+modal.addEventListener('click', (event)=>{
+    if (event.target === modal) {
+        closeModal()
+    }
+})
 
-    //     idInterval = setInterval(upDateClock, 1000);
-    //     upDateClock()
+document.addEventListener('keydown', (e)=>{
+    if (e.code === 'Escape' && modal.classList.contains('show')) {
+        closeModal()
+    }
+})
 
-    //     function upDateClock() {
-    //         const t = getTimeRemaining(endTime)
-    //         days.innerHTML = getZero(t.days)
-    //         hours.innerHTML = getZero(t.hours)
-    //         minutes.innerHTML = getZero(t.minutes)
-    //         seconds.innerHTML = getZero(t.seconds)
-
-    //         if (t.timer <= 0) {
-    //             clearInterval(idInterval)
-    //         }
-    //     }
-    // }
-
-    // setClock('.timer', deadline)
-
+const modalTimerId = setTimeout(showModal, 5000);
 
 })
