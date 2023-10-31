@@ -1,3 +1,4 @@
+`use strict';`
 document.addEventListener('DOMContentLoaded', () => {
 
     const tabheader__parent = document.querySelector('.tabheader__items'),
@@ -104,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // M O D A L 
 
-const allModals = document.querySelector('[data-modal]'),
+const allModals = document.querySelectorAll('[data-modal]'),
 modal = document.querySelector('.modal'),
 modalClsBtn = document.querySelector('[data-close]')
 
@@ -121,7 +122,9 @@ function closeModal() {
     document.body.style.overflow = ''
 }
 
-allModals.addEventListener('click', showModal)
+allModals.forEach(item => {
+    item.addEventListener('click', showModal)
+})
 
 modalClsBtn.addEventListener('click', closeModal )
 
@@ -137,6 +140,77 @@ document.addEventListener('keydown', (e)=>{
     }
 })
 
-const modalTimerId = setTimeout(showModal, 5000);
+// const modalTimerId = setTimeout(showModal, 5000);
+
+
+function showModalByScroll() {
+    if (window.pageYOffset + document.documentElement.clientHeight 
+        >= document.documentElement.scrollHeight) {
+        showModal()
+        window.removeEventListener('scroll', showModalByScroll)
+    }
+}
+
+window.addEventListener('scroll', showModalByScroll)
+
+//MENU ----- CLASS 
+
+class MenuCard {
+    constructor(scr, alt, title, disc, price, toParent, ...classes) {
+        this.scr = scr;
+        this.alt = alt;
+        this.title = title;
+        this.disc = disc;
+        this.price = price;
+        this.parent = document.querySelector(toParent);
+        this.classes = classes;
+        this.transfer = 12400;
+        this.changeToUZS();
+    }
+
+    changeToUZS() {
+        this.price = this.price * this.transfer;
+    }
+
+    runner() {
+        const element = document.createElement('div');
+
+        if (this.classes.length === 0) {
+            this.element = 'menu__item'
+            element.classList.add(this.element)
+        } else {
+           this.classes.forEach((className) => element.classList.add(className));
+        }
+
+
+        element.innerHTML = `
+            <img src="${this.scr}" alt="${this.alt}" />
+            <h3 class="menu__item-subtitle">${this.title}</h3>
+            <div class="menu__item-descr">${this.disc}</div>
+            <div class="menu__item-divider"></div>
+            <div class="menu__item-price">
+                <div class="menu__item-cost">Price:</div>
+                <div class="menu__item-total"><span>${this.price}</span> uzs/month</div>
+            </div>
+        `
+
+        this.parent.append(element);
+    }
+}
+
+new MenuCard('img/tabs/1.png', 'vegy', 'Plan "Usual"', 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditate beatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.', 5, '.menu .container').runner();
+
+new MenuCard('img/tabs/2.jpg', 'elite', 'Plan "Premium"', 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditate beatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.', 15, '.menu .container', 'menu__item').runner();
+
+new MenuCard('img/tabs/3.jpg', 'vip', 'Plan "VIP"', 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditate beatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.', 25, '.menu .container', 'menu__item').runner();
+
+
+
+
+
+
+
 
 })
+
+
